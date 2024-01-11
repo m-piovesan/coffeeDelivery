@@ -5,7 +5,8 @@ export const Container = styled.header`
     justify-content: space-between;
     align-items: center;
 
-    padding: 2rem 10rem;    
+    padding: 2rem 10rem;
+    margin-bottom: 5rem;    
     border-bottom: 1px solid #ddd;
 
     nav {
@@ -16,6 +17,7 @@ export const Container = styled.header`
         span {
             display: flex;
             align-items: center;
+            gap: 0.2rem;
             
             font-size: 1rem;
             font-weight: 200;
@@ -29,9 +31,19 @@ export const Container = styled.header`
             transition: all 0.3s;
         }
 
+        span:last-child {
+            color: ${props => props.theme["yellow-300"]};
+            background-color: ${props => props.theme["yellow-100"]};
+        }
+
         span:hover {
             color: ${props => props.theme["purple-100"]};
             background-color: ${props => props.theme["purple-700"]};
+        }
+
+        span:last-child:hover {
+            color: ${props => props.theme["yellow-100"]};
+            background-color: ${props => props.theme["yellow-700"]};
         }
     }
 `;

@@ -8,8 +8,8 @@ export function Header() {
         <Container>
             <img src={logo} />
             <nav>
-                <span> <MapPin size={24} /> Porto Alegre</span>
-                <span> <ShoppingCart size={24} /> </span>
+                <span> <MapPin size={24} weight="fill" /> Videira, SC</span>
+                <span> <ShoppingCart size={24} weight="fill" /> </span>
             </nav>
         </Container>
     )
