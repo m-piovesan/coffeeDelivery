@@ -27,4 +27,8 @@ export const GlobalStyle = createGlobalStyle`
         font-family: 'Baloo 2', sans-serif;
         color: ${(props) => props.theme['base-title']};
     }
+
+    h2 {
+        color: ${(props) => props.theme['base-subtitle']};
+    }
 `

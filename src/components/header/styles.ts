@@ -14,13 +14,14 @@ export const Container = styled.header`
         align-items: center;
         gap: 2rem;
 
-        span {
+        a {
             display: flex;
             align-items: center;
             gap: 0.2rem;
             
             font-size: 1rem;
             font-weight: 200;
+            text-decoration: none;
 
             padding: 0.5rem 1rem;
 
@@ -31,17 +32,17 @@ export const Container = styled.header`
             transition: all 0.3s;
         }
 
-        span:last-child {
+        a:last-child {
             color: ${props => props.theme["yellow-300"]};
             background-color: ${props => props.theme["yellow-100"]};
         }
 
-        span:hover {
+        a:hover {
             color: ${props => props.theme["purple-100"]};
             background-color: ${props => props.theme["purple-700"]};
         }
 
-        span:last-child:hover {
+        a:last-child:hover {
             color: ${props => props.theme["yellow-100"]};
             background-color: ${props => props.theme["yellow-700"]};
         }
