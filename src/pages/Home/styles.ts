@@ -1,20 +1,5 @@
 import styled from "styled-components";
-
-export const Container = styled.main`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-
-    width: 100vw;
-    padding: 0 10rem;
-
-    h2 {
-        font-size: 2rem;
-        font-weight: 700;
-        margin-bottom: 1rem;
-    }
-`;
+// import { mixins } from '../../styles/mixins'
 
 export const LandingPage = styled.div`
     width: 100%;
@@ -39,7 +24,7 @@ export const Content = styled.div`
     p.subtitle {
         font-size: 1.3rem;
         font-weight: 400;
-        margin-bottom: 2 rem;
+        margin-bottom: 2rem;
         line-height: 1.7rem;
     }
 
@@ -108,41 +93,66 @@ export const CoffeeSection = styled.section`
     }
 `;
 
-export const CoffeeCard = styled.li`
+
+// daqui pra cima tá suave
+
+
+// export const CoffeeCard = styled.li`
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+    
+//     flex: 0 0 calc(25% - 1rem);
+    
+//     background-color: ${props => props.theme['base-card']};
+//     border-radius: 0 15% 0 15%;
+
+//     div {
+//         display: flex;
+//         flex-direction: column;
+//         align-items: center;
+//         justify-content: center;
+
+//         width: 80%;
+
+//         h4 {
+//             text-transform: uppercase;
+//             font-size: .8rem;
+
+//             padding: 0 .5rem;
+//             margin: .5rem;
+
+//             color: ${props => props.theme['yellow-700']};
+//             background: ${props => props.theme['yellow-100']};
+//             border-radius: 50px;
+//         }
+
+//         p {
+//             font-size: .9rem;
+//             margin-bottom: 1rem;
+//             text-align: center;
+//             color: ${props => props.theme['base-label']};
+//         }
+//     }
+// `;
+
+export const CoffeeList = styled.section`
+    max-width: 1160px;
+    padding: 32px 20px 150px;
+    margin: 0 auto;
+
     display: flex;
-    align-items: center;
-    justify-content: center;
-    
-    flex: 0 0 calc(25% - 1rem);
-    
-    background-color: ${props => props.theme['base-card']};
-    border-radius: 0 15% 0 15%;
+    flex-direction: column;
+    gap: 54px;
 
-    div {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+    > h2 {
+        color: ${props => props.theme['base-title']};
+    }
 
-        width: 80%;
-
-        h4 {
-            text-transform: uppercase;
-            font-size: .8rem;
-
-            padding: 0 .5rem;
-            margin: .5rem;
-
-            color: ${props => props.theme['yellow-700']};
-            background: ${props => props.theme['yellow-100']};
-            border-radius: 50px;
-        }
-
-        p {
-            font-size: .9rem;
-            margin-bottom: 1rem;
-            text-align: center;
-            color: ${props => props.theme['base-label']};
-        }
+    > div {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-row-gap: 40px;
+        grid-column-gap: 32px;
     }
 `;
