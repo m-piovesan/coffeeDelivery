@@ -1,6 +1,11 @@
 import styled from "styled-components";
 import { mixins } from '../../styles/mixins'
 
+interface StyledPaymentButtonProps {
+    isSelected?: boolean;
+}
+  
+
 export const LandingPage = styled.div`
     width: 100%;
 
@@ -17,6 +22,7 @@ export const OrderContainer = styled.div`
 
     display: flex;
     flex-direction: column;
+    gap: 2rem;
 
     h3 {
         ${mixins.fonts.titleS};
@@ -50,43 +56,76 @@ export const IBForm = styled.div`
     display: flex;
     gap: .5rem;
     flex-direction: column;
+    width: 100%;
 `
 
 export const Row = styled.div`
     display: flex;
+    align-items: center;
+    justify-content: space-between;
     flex-direction: row;
     gap: 0.5rem;
 `
 
-const BaseInput = styled.input`
-    background: transparent;
-    border: 0;
-    height: 2.5rem;
-    border-bottom: 2px solid ${props => props.theme['gray-500']};
-    font-weight: bold;
-    font-size: 1.125rem;
-    padding: 0 0.5rem;
-    color: ${props => props.theme['gray-100']};
+export const BaseInput = styled.input`
+    padding: 0.5rem;
+    border: 1px solid ${props => props.theme['base-hover']};
+    background-color: ${props => props.theme['base-input']};
+    border-radius: 5px;
+    gap: 1rem;
 
-    transition: border-color 0.2s;
+    width: ${props => props.width || '100%'};
+
+    transition: all 0.2s ease-in-out;
 
     &:focus {
-        box-shadow: none;
-        border-color: ${props => props.theme['green-500']};
-    }
-
-    &::placeholder {
-        color: ${props => props.theme['gray-500']};
+        border-color: ${props => props.theme['yellow-300']};
     }
 `
 
-export const TaskInput = styled(BaseInput)`
-    flex: 1;
+export const UFSelect = styled.select`
+    padding: 0.5rem;
+    border-radius: 5px;
+    width: 10%;
+
+    border: 1px solid ${props => props.theme['base-hover']};
+    background-color: ${props => props.theme['base-input']};
+    color: ${props => props.theme['base-text']};
+
+    transition: all 0.2s ease-in-out;
+
+    &:focus {
+        border-color: ${props => props.theme['yellow-300']};
+    }
+` 
+
+export const PaymentButton = styled.button<StyledPaymentButtonProps>`
+    background-color: ${props => (props.isSelected ? props.theme['base-hover'] : props.theme['base-button'])};
+    color: ${props => props.theme['base-text']};
+    border: ${props => (props.isSelected ? `2px solid ${props.theme['base-border']}` : `2px solid transparent`)};
+
+    border-radius: 5px;
+    padding: 1rem;
+    gap: .5rem;
+    width: 13rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
     
-    &::-webkit-calendar-picker-indicator {
-        display: none !important;
+    text-transform: uppercase;
+    ${mixins.fonts.buttonM};
+
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+        background-color: ${props => props.theme['base-hover']};
     }
-`
+
+    &:focus {
+        border-color: ${props => props.theme['purple-700']};
+    }
+`   
 
 export const SelectedCoffees = styled.div`
     width: 30%;
