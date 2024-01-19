@@ -54,26 +54,6 @@ export const Banner = styled.div`
     }
 `;
 
-const ICONS_COLORS = {
-    'yellow-dark': 'yellow-700',
-    yellow: 'yellow-300',
-    'purple-dark': 'purple-700',
-    gray: 'base-text',
-} as const
-
-interface IconsProps {
-    iconsColor: keyof typeof ICONS_COLORS; 
-}
-
-export const Icon = styled.span<IconsProps>`
-    display: flex;
-    align-items: center;
-
-    padding: 0.5rem;
-    border-radius: 50%;
-    background: ${props => props.theme[ICONS_COLORS[props.iconsColor]]};
-`;
-
 export const CoffeeSection = styled.section`    
     width: 100%;
 

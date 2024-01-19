@@ -7,14 +7,17 @@ import { Container } from './styles'
 export function Header() {
     return (
         <Container>
-            <img src={logo} />
+            <NavLink to="/" title='home'>
+                <img src={logo} />
+            </NavLink>
+
             <nav>
-                <NavLink to="/" title='home'>
+                <NavLink to="/checkout" title='checkout'>
                     <MapPin size={24} weight="fill" /> 
                     Videira, SC
                 </NavLink>
 
-                <NavLink to="/checkout" title='home'>
+                <NavLink to="/checkout" title='checkout'>
                     <ShoppingCart size={24} weight="fill" /> 
                 </NavLink>
             </nav>

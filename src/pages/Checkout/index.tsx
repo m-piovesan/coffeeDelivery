@@ -8,7 +8,10 @@ import {
     Row,
     BaseInput,
     UFSelect,
-    PaymentButton
+    PaymentButton,
+    PriceDisplay,
+    PriceRow,
+    ConfirmButton
 } from './styles';
 
 import { MapPinLine, CurrencyDollar, Money, CreditCard, Bank } from 'phosphor-react';
@@ -20,12 +23,13 @@ export function Checkout() {
 
     const handlePaymentButtonClick = (paymentMethod) => {
         setSelectedPaymentMethod(paymentMethod);
+        console.log(selectedPaymentMethod);
     };
 
     return (
         <LandingPage>
             <OrderContainer>
-                <h3>Complete seu pedido</h3>
+                <h2>Complete seu pedido</h2>
 
                 <InfoBox>
                     <IBTitle>                        
@@ -107,7 +111,6 @@ export function Checkout() {
                     </IBForm>
                 </InfoBox>
 
-                {/* Formas de Pagamento */}
                 <InfoBox>
                     <IBTitle>
                         <CurrencyDollar size={22} color='#4B2995' />
@@ -147,9 +150,34 @@ export function Checkout() {
             </OrderContainer>
 
             <SelectedCoffees>
-                <h2>Selected Coffees</h2>
-                <p>1 item</p>
-                <p>$10.00</p>
+                <h2>Cafés Selecionados</h2>
+                
+                <InfoBox>
+                    <div className='coffeeDisplay'>
+
+                    </div>
+                    <PriceDisplay>
+                        <PriceRow>
+                            <p>Total de itens:</p>
+                            <p>R$ 0,00</p>    
+                        </PriceRow> 
+
+                        <PriceRow>
+                            <p>Entrega:</p>
+                            <p>R$ 0,00</p>    
+                        </PriceRow>
+
+                        <PriceRow>
+                            <p>Total:</p>
+                            <p>R$ 0,00</p>    
+                        </PriceRow>  
+                    </PriceDisplay>
+
+                    <ConfirmButton to="/success" title='home'>
+                        <p>Confirmar Pedido</p>
+                    </ConfirmButton>
+                </InfoBox>
+
             </SelectedCoffees>
         </LandingPage>
     );
