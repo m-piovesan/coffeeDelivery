@@ -4,6 +4,7 @@ import { IconsProps } from './index';
 export const ICONS_COLORS = {
   'yellow-dark': 'yellow-700',
   yellow: 'yellow-300',
+  'light-purple': 'purple-300',
   'purple-dark': 'purple-700',
   gray: 'base-text',
 } as const;

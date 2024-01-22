@@ -2,7 +2,7 @@ import coffeeBanner from '../../assets/coffeeBanner.svg'
 
 import { ShoppingCart, Timer, Package, Coffee } from 'phosphor-react'
 
-import {Banner, Content, CoffeeSection, LandingPage, CoffeeList } from './styles'
+import { Banner, Content, CoffeeSection, LandingPage, CoffeeList } from './styles'
 
 import { Icon } from '../../components/icon'
 

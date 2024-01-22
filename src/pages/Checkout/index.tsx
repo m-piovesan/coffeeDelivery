@@ -4,15 +4,15 @@ import {
     LandingPage,
     InfoBox,
     IBTitle,
-    IBForm,
-    Row,
-    BaseInput,
-    UFSelect,
     PaymentButton,
     PriceDisplay,
     PriceRow,
     ConfirmButton
 } from './styles';
+
+import { IBForm, Row } from './components/AddressForm/styles';
+
+import { AddressForm } from './components/AddressForm'
 
 import { MapPinLine, CurrencyDollar, Money, CreditCard, Bank } from 'phosphor-react';
 
@@ -39,76 +39,8 @@ export function Checkout() {
                     
                     <p>Informe o endereço onde deseja receber seu pedido</p>
 
-                    <IBForm>
-                        <Row>
-                            <BaseInput width="30%"
-                                id="task"
-                                placeholder="CEP"                   
-                            />
-                        </Row>
-
-                        <Row>
-                            <BaseInput width="100%"
-                                id="task"
-                                placeholder="Rua"                   
-                            />
-                        </Row>
-
-                        <Row>
-                            <BaseInput width="30%"
-                                id="task"
-                                placeholder="Número"                   
-                            />
-
-                            <BaseInput width="70%"
-                                id="task"
-                                placeholder="Complemento"                   
-                            />
-                        </Row>
-
-                        <Row>
-                            <BaseInput width="30%"
-                                id="task"
-                                placeholder="Bairro"                   
-                            />
-
-                            <BaseInput width="60%"
-                                id="task"
-                                placeholder="Cidade"                   
-                            />
-
-                            <UFSelect>
-                                <option disabled selected>UF</option>
-                                <option value="AC">Acre</option>
-                                <option value="AL">Alagoas</option>
-                                <option value="AP">Amapá</option>
-                                <option value="AM">Amazonas</option>
-                                <option value="BA">Bahia</option>
-                                <option value="CE">Ceará</option>
-                                <option value="DF">Distrito Federal</option>
-                                <option value="ES">Espírito Santo</option>
-                                <option value="GO">Goiás</option>
-                                <option value="MA">Maranhão</option>
-                                <option value="MT">Mato Grosso</option>
-                                <option value="MS">Mato Grosso do Sul</option>
-                                <option value="MG">Minas Gerais</option>
-                                <option value="PA">Pará</option>
-                                <option value="PB">Paraíba</option>
-                                <option value="PR">Paraná</option>
-                                <option value="PE">Pernambuco</option>
-                                <option value="PI">Piauí</option>
-                                <option value="RJ">Rio de Janeiro</option>
-                                <option value="RN">Rio Grande do Norte</option>
-                                <option value="RS">Rio Grande do Sul</option>
-                                <option value="RO">Rondônia</option>
-                                <option value="RR">Roraima</option>
-                                <option value="SC">Santa Catarina</option>
-                                <option value="SP">São Paulo</option>
-                                <option value="SE">Sergipe</option>
-                                <option value="TO">Tocantins</option>
-                            </UFSelect>
-                        </Row>
-                    </IBForm>
+                    <AddressForm />
+                    
                 </InfoBox>
 
                 <InfoBox>

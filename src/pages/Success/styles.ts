@@ -29,19 +29,25 @@ export const OrderConfirmed = styled.div`
     }
 `
 
-export const OrderDetails = styled.div`
+export const GradientBorder = styled.div`
+    margin-top: 2rem;
     width: 100%;
 
+    border: double 1px transparent;
+    background-image: linear-gradient(white, white), linear-gradient(to right, ${props => props.theme['yellow-700']}, ${props => props.theme['purple-700']});
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    border-radius: 5px 50px;
+`
+
+export const OrderDetails = styled.div`
     display: flex;
     gap: 1rem;
     flex-direction: column;
     align-items: start;
     justify-content: center;
 
-    padding: 3rem;
-    border: 1px solid black;
-    border-radius: 5px 50px;
-    margin-top: 2rem;
+    padding: 2.5rem;
 `
 
 export const OrderDetailsRow = styled.div`
@@ -57,5 +63,19 @@ export const OrderDetailsText = styled.div`
     flex-direction: column;
     gap: .1rem;
     justify-content: center;
-    align-items: center;
+    align-items: start;
+
+    p {
+        ${mixins.fonts.textM};
+    }
+`
+
+export const BannerImage = styled.div`
+    width: 50%;
+    display: flex;
+    margin-top: 5.5rem;
+
+    img {
+        width: 100%;
+    }
 `
