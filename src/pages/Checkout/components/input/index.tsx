@@ -1,19 +1,17 @@
 import { StyledInput } from './styles';
 
-interface InputProps {
+import { InputHTMLAttributes } from 'react'
+
+type BaseInputProps = InputHTMLAttributes<HTMLInputElement> & {
     width: string;
-    id: string;
-    placeholder: string;
-    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export function BaseInput({ width, id, placeholder, onChange }: InputProps) {
-  return (
-    <StyledInput
-      width={width}
-      id={id}
-      placeholder={placeholder}
-      onChange={onChange}
-    />
-  );
+export function BaseInput({ width, id, placeholder }: BaseInputProps) {
+    return (
+        <StyledInput
+            width={width}
+            id={id as string}
+            placeholder={placeholder}
+        />
+    );
 }
