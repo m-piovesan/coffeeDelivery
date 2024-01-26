@@ -12,10 +12,10 @@ import { Icon } from '../../components/icon'
 import Motoboy from '../../assets/motoboy.svg'
 import { MapPin, CurrencyDollar, Timer } from 'phosphor-react'
 
-import { useAddress } from '../../contexts/AddressContext'
+// import { useAddress } from '../../contexts/AddressContext'
 
 export function Success() {
-    const { address } = useAddress();
+    // const { address } = useAddress();
 
     return (
         <LandingPage>
@@ -30,8 +30,8 @@ export function Success() {
                                 <MapPin weight="fill" color='white' />
                             </Icon>                        
                             <OrderDetailsText>
-                                <p>Entrega em {address.street}, {address.number}</p>
-                                <p>{address.neighborhood} - {address.city}, {address.state}</p>
+                                {/* <p>Entrega em {address.street}, {address.number}</p>
+                                <p>{address.neighborhood} - {address.city}, {address.state}</p> */}
                             </OrderDetailsText>
                         </OrderDetailsRow>
 

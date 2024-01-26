@@ -1,8 +1,6 @@
 import styled from "styled-components";
 import { mixins } from '../../styles/mixins'
 
-import { NavLink } from 'react-router-dom';
-
 interface StyledPaymentButtonProps {
     isSelected?: boolean;
 }
@@ -50,7 +48,7 @@ export const IBTitle = styled.div`
     flex-direction: row; /* Mantém os dois primeiros elementos na mesma linha */
 `;
 
-export const IBForm = styled.div`
+export const IBForm = styled.form`
     display: flex;
     gap: .5rem;
     flex-direction: column;
@@ -63,6 +61,10 @@ export const Row = styled.div`
     justify-content: space-between;
     flex-direction: row;
     gap: 0.5rem;
+
+    p {
+        ${mixins.fonts.textXS};
+    }
 `
 
 export const UFSelect = styled.select`
@@ -143,7 +145,7 @@ export const PriceRow = styled.div`
     }
 `
 
-export const ConfirmButton = styled(NavLink)`
+export const ConfirmButton = styled.button`
     width: 100%;
 
     display: flex;

@@ -34,7 +34,7 @@ export const GradientBorder = styled.div`
     width: 100%;
 
     border: double 1px transparent;
-    background-image: linear-gradient(white, white), linear-gradient(to right, ${props => props.theme['yellow-700']}, ${props => props.theme['purple-700']});
+    background-image: linear-gradient(${props => props.theme['bg']}, ${props => props.theme['bg']}), linear-gradient(to right, ${props => props.theme['yellow-700']}, ${props => props.theme['purple-700']});
     background-origin: border-box;
     background-clip: content-box, border-box;
     border-radius: 5px 50px;

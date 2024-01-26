@@ -16,51 +16,36 @@ import {
 import { BaseInput } from './components/input'
 import { MapPinLine, CurrencyDollar, Money, CreditCard, Bank } from 'phosphor-react';
 
-import { SubmitHandler, useForm, SubmitErrorHandler } from 'react-hook-form';
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-// tipagem dos inputs
-export type FormInputs = {
-    cep: number
-    street: string
-    number: string
-    complement: string
-    neighborhood: string
-    city: string
-    state: string
-    paymentMethod: 'credit' | 'debit' | 'cash' | ''
-}
-
 // schema de validação
-const newOrder = z.object({
-        cep: z.number({ invalid_type_error: 'Informe o CEP' }),
+const newOrderSchema = z.object({
+        cep: z.string().min(8, 'Informe um CEP válido'),
         street: z.string().min(1, 'Informe a rua'),
         number: z.string().min(1, 'Informe o número'),
         complement: z.string(),
         neighborhood: z.string().min(1, 'Informe o bairro'),
         city: z.string().min(1, 'Informe a cidade'),
         state: z.string().min(1, 'Informe a UF'),
-        paymentMethod: z.enum(['credit', 'debit', 'cash'], {
-        invalid_type_error: 'Informe um método de pagamento',
+        paymentMethod: z.enum(['credit', 'debit', 'cash', ''], {
+            invalid_type_error: 'Informe um método de pagamento',
     }),
 })
   
 // tipagem do resultado da validação
-export type OrderInfo = z.infer<typeof newOrder>
+type OrderInfo = z.infer<typeof newOrderSchema>
 
 export function Checkout() {
-    const navigate = useNavigate()
-
-    const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormInputs>({
-        resolver: zodResolver(newOrder),
+    const { register, handleSubmit } = useForm<OrderInfo>({
+        resolver: zodResolver(newOrderSchema),
     });
 
-    const [inputInfo, setInputInfo] = useState<FormInputs>({
-        cep: 0,
+    const [inputInfo, setInputInfo] = useState<OrderInfo>({
+        cep: '',
         street: '',
         number: '',
         complement: '',
@@ -70,28 +55,19 @@ export function Checkout() {
         paymentMethod: ''
     })
 
-    // Atualize os valores dos inputs quando inputInfo mudar
-    useEffect(() => {
-        Object.keys(inputInfo).forEach((key) => setValue(key as keyof FormInputs, inputInfo[key]));
-    }, [inputInfo, setValue]);    
+    // Função para lidar com o envio do formulário, recebe como parâmetro os dados do formulário
+    function handleFormSubmit(data: OrderInfo) {
+        setInputInfo(data)
+    }
 
-    // Função para lidar com o envio do formulário
-    const onSubmit: SubmitHandler<FormInputs> = (data) => {
-        // Os dados do formulário são validados pelo Zod automaticamente pelo RHF
-        // Se a validação for bem-sucedida, você pode proceder com o armazenamento dos dados e a navegação
-        localStorage.setItem('formData', JSON.stringify(data));
-        navigate('/success');
-    };
-
-    // Função para lidar com erros de validação
-    const onError: SubmitErrorHandler<FormInputs> = (errors) => {
-        console.error('vai se fude:', errors);
-    };
-
-    function handlePaymentButtonClick(paymentMethod: 'credit' | 'debit' | 'cash') {
+    // Função para lidar com o clique nos botões de pagamento
+    function handlePaymentButtonClick(paymentMethod: 'credit' | 'debit' | 'cash' | '') {
+        event.preventDefault();
         setInputInfo({ ...inputInfo, paymentMethod })
     }
-    
+        
+    console.log(inputInfo)
+
     return (
         <LandingPage>
             <OrderContainer>
@@ -105,14 +81,16 @@ export function Checkout() {
                     
                     <p>Informe o endereço onde deseja receber seu pedido</p>
 
-                    <IBForm>
+                    <IBForm onSubmit={handleSubmit(handleFormSubmit)}>
                         <Row>
                             <BaseInput
-                                width="30%"
+                                width="50%"
                                 id="cep"
                                 placeholder="CEP"
                                 {...register('cep', { valueAsNumber: true })}
                             />
+
+                            <p>Somente números</p>
                         </Row>
 
                         <Row>
@@ -181,6 +159,10 @@ export function Checkout() {
                                 <option value="TO">Tocantins</option>
                             </UFSelect>
                         </Row>
+                        
+                        <ConfirmButton onClick={handleSubmit(handleFormSubmit)} type='submit'>
+                            <p>Confirmar Pedido</p>
+                        </ConfirmButton>
                     </IBForm>
                     
                 </InfoBox>
@@ -247,9 +229,9 @@ export function Checkout() {
                         </PriceRow>  
                     </PriceDisplay>
 
-                    <ConfirmButton to="/success" title='home' onClick={handleSubmit(onSubmit, onError)}>
+                    {/* <ConfirmButton type='submit'>
                         <p>Confirmar Pedido</p>
-                    </ConfirmButton>
+                    </ConfirmButton> */}
 
                 </InfoBox>
 

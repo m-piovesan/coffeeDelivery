@@ -1,4 +1,4 @@
-import { createContext, useContext, ReactNode, useEffect, useReducer, useState } from "react";
+import { createContext, useContext, ReactNode, useEffect, useReducer } from "react";
 
 interface AddressContextType {
     address: {
@@ -33,13 +33,13 @@ export function AddressContextProvider({ children }: AddressContextProviderProps
     const [address, setAddress] = useReducer(
         (prevAddress: Address, newAddress: Partial<Address>) => ({ ...prevAddress, ...newAddress }),
         {
-        cep: "",
-        street: "",
-        number: "",
-        complement: "",
-        neighborhood: "",
-        city: "",
-        state: "",
+            cep: "",
+            street: "",
+            number: "",
+            complement: "",
+            neighborhood: "",
+            city: "",
+            state: "",
         }
     );
 
