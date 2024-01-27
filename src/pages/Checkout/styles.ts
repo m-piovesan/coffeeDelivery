@@ -4,6 +4,10 @@ import { mixins } from '../../styles/mixins'
 interface StyledPaymentButtonProps {
     isSelected?: boolean;
 }
+
+interface StyledInputProps {
+    isValid?: boolean;
+}
   
 export const LandingPage = styled.div`
     width: 100%;
@@ -145,7 +149,7 @@ export const PriceRow = styled.div`
     }
 `
 
-export const ConfirmButton = styled.button`
+export const ConfirmButton = styled.button<StyledInputProps>`
     width: 100%;
 
     display: flex;
@@ -153,20 +157,21 @@ export const ConfirmButton = styled.button`
     justify-content: center;
 
     padding: 12px;
-    background-color: ${props => props.theme['yellow-300']};
+    background-color: ${(props) => (props.isValid ? props.theme['yellow-300'] : props.theme['yellow-700'])};
     border: none;
     border-radius: 8px;
 
-    cursor: pointer;
     text-decoration: none;
     transition: all 0.2s ease-in-out;
+    cursor: ${(props) => (props.isValid ? 'pointer' : 'not-allowed')};
+    opacity: ${(props) => (props.isValid ? 1 : 0.5)};
     
     p {
         ${mixins.fonts.buttonG};
         text-transform: uppercase;
         color: ${props => props.theme['white']};
     }
-    
+
     &:hover {
         background-color: ${props => props.theme['yellow-700']};
     }

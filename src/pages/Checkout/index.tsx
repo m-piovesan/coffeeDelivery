@@ -40,7 +40,7 @@ const newOrderSchema = z.object({
 type OrderInfo = z.infer<typeof newOrderSchema>
 
 export function Checkout() {
-    const { register, handleSubmit, formState: { errors } } = useForm<OrderInfo>({
+    const { register, handleSubmit, formState } = useForm<OrderInfo>({
         resolver: zodResolver(newOrderSchema),
     });
 
@@ -57,7 +57,6 @@ export function Checkout() {
     // }
         
     function onSubmit(data: OrderInfo) {
-        console.log('viado')
         console.log(data)
     }
 
@@ -74,13 +73,13 @@ export function Checkout() {
                     
                     <p>Informe o endereço onde deseja receber seu pedido</p>
                     
-                    <IBForm onSubmit={handleSubmit(onSubmit)}>
+                    <IBForm id='addressForm' onSubmit={handleSubmit(onSubmit)}>
                         <Row>
                             <BaseInput
                                 width="50%"
                                 id="cep"
                                 placeholder="CEP"
-                                {...register('cep')}
+                                {...register('cep', { required: true })}
                             />
 
                             <p>Somente números</p>
@@ -90,7 +89,7 @@ export function Checkout() {
                             <BaseInput width="100%"
                                 id="street"
                                 placeholder="Rua"
-                                {...register('street')}                 
+                                {...register('street', { required: true })}                 
                             />
                         </Row>
 
@@ -98,13 +97,13 @@ export function Checkout() {
                             <BaseInput width="30%"
                                 id="number"
                                 placeholder="Número"   
-                                {...register('number')}                
+                                {...register('number', { required: true })}                
                             />
 
                             <BaseInput width="70%"
                                 id="complement"
-                                placeholder="Complemento" 
-                                {...register('complement')}                  
+                                placeholder="Complemento (opcional)" 
+                                {...register('complement', { required: false })}                  
                             />
                         </Row>
 
@@ -112,16 +111,16 @@ export function Checkout() {
                             <BaseInput width="30%"
                                 id="neighborhood"
                                 placeholder="Bairro" 
-                                {...register('neighborhood')}                  
+                                {...register('neighborhood', { required: true })}                  
                             />
 
                             <BaseInput width="60%"
                                 id="city"
                                 placeholder="Cidade" 
-                                {...register('city')}                  
+                                {...register('city', { required: true})}                  
                             />
 
-                            <UFSelect defaultValue="" {...register('state')}>
+                            <UFSelect defaultValue="" {...register('state', { required: true })}>
                                 <option disabled value={""}>UF</option>
                                 <option value="AC">Acre</option>
                                 <option value="AL">Alagoas</option>
@@ -152,10 +151,6 @@ export function Checkout() {
                                 <option value="TO">Tocantins</option>
                             </UFSelect>
                         </Row>
-                        
-                        <ConfirmButton type='submit'>
-                            <p>Confirmar Pedido</p>
-                        </ConfirmButton>
                     </IBForm>
                     
                 </InfoBox>
@@ -203,7 +198,7 @@ export function Checkout() {
                 
                 <InfoBox>
                     <div className='coffeeDisplay'>
-
+                        <h1>cafés aqui</h1>
                     </div>
                     <PriceDisplay>
                         <PriceRow>
@@ -222,9 +217,9 @@ export function Checkout() {
                         </PriceRow>  
                     </PriceDisplay>
 
-                    {/* <ConfirmButton type='submit'>
+                    <ConfirmButton form='addressForm' type='submit' isValid={formState.isValid}>
                         <p>Confirmar Pedido</p>
-                    </ConfirmButton> */}
+                    </ConfirmButton>        
 
                 </InfoBox>
 
