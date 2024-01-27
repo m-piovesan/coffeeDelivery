@@ -31,48 +31,41 @@ const newOrderSchema = z.object({
         neighborhood: z.string().min(1, 'Informe o bairro'),
         city: z.string().min(1, 'Informe a cidade'),
         state: z.string().min(1, 'Informe a UF'),
-        paymentMethod: z.enum(['credit', 'debit', 'cash', ''], {
-            invalid_type_error: 'Informe um método de pagamento',
-    }),
+    //     paymentMethod: z.enum(['credit', 'debit', 'cash', ''], {
+    //         invalid_type_error: 'Informe um método de pagamento',
+    // }),
 })
   
 // tipagem do resultado da validação
 type OrderInfo = z.infer<typeof newOrderSchema>
 
 export function Checkout() {
-    const { register, handleSubmit } = useForm<OrderInfo>({
+    const { register, handleSubmit, formState: { errors } } = useForm<OrderInfo>({
         resolver: zodResolver(newOrderSchema),
     });
 
-    const [inputInfo, setInputInfo] = useState<OrderInfo>({
-        cep: '',
-        street: '',
-        number: '',
-        complement: '',
-        neighborhood: '',
-        city: '',
-        state: '',
-        paymentMethod: ''
-    })
 
     // Função para lidar com o envio do formulário, recebe como parâmetro os dados do formulário
-    function handleFormSubmit(data: OrderInfo) {
-        setInputInfo(data)
-    }
+    // function handleFormSubmit (handleSubmit( async ({}) => {}) data: OrderInfo) {
+    //     setInputInfo(data)
+    // }
 
     // Função para lidar com o clique nos botões de pagamento
-    function handlePaymentButtonClick(paymentMethod: 'credit' | 'debit' | 'cash' | '') {
-        event.preventDefault();
-        setInputInfo({ ...inputInfo, paymentMethod })
-    }
+    // function handlePaymentButtonClick(paymentMethod: 'credit' | 'debit' | 'cash' | '') {
+    //     event.preventDefault();
+    //     setInputInfo({ ...inputInfo, paymentMethod })
+    // }
         
-    console.log(inputInfo)
+    function onSubmit(data: OrderInfo) {
+        console.log('viado')
+        console.log(data)
+    }
 
     return (
         <LandingPage>
             <OrderContainer>
                 <h2>Complete seu pedido</h2>
-
+               
                 <InfoBox>
                     <IBTitle>                        
                         <MapPinLine size={22} color='#DBAC2C'/>
@@ -80,14 +73,14 @@ export function Checkout() {
                     </IBTitle>
                     
                     <p>Informe o endereço onde deseja receber seu pedido</p>
-
-                    <IBForm onSubmit={handleSubmit(handleFormSubmit)}>
+                    
+                    <IBForm onSubmit={handleSubmit(onSubmit)}>
                         <Row>
                             <BaseInput
                                 width="50%"
                                 id="cep"
                                 placeholder="CEP"
-                                {...register('cep', { valueAsNumber: true })}
+                                {...register('cep')}
                             />
 
                             <p>Somente números</p>
@@ -129,7 +122,7 @@ export function Checkout() {
                             />
 
                             <UFSelect defaultValue="" {...register('state')}>
-                                <option disabled>UF</option>
+                                <option disabled value={""}>UF</option>
                                 <option value="AC">Acre</option>
                                 <option value="AL">Alagoas</option>
                                 <option value="AP">Amapá</option>
@@ -160,7 +153,7 @@ export function Checkout() {
                             </UFSelect>
                         </Row>
                         
-                        <ConfirmButton onClick={handleSubmit(handleFormSubmit)} type='submit'>
+                        <ConfirmButton type='submit'>
                             <p>Confirmar Pedido</p>
                         </ConfirmButton>
                     </IBForm>
@@ -175,7 +168,7 @@ export function Checkout() {
 
                     <p>O pagamento é feito na entrega. Escolha a forma que deseja pagar</p>
 
-                    <IBForm>
+                    {/* <IBForm>
                         <Row>
                             <PaymentButton
                                 onClick={() => handlePaymentButtonClick('credit')}
@@ -201,7 +194,7 @@ export function Checkout() {
                                 Dinheiro
                             </PaymentButton>
                         </Row>
-                    </IBForm>
+                    </IBForm> */}
                 </InfoBox>
             </OrderContainer>
 
