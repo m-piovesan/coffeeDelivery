@@ -1,56 +1,44 @@
 import { ShoppingCart, Check } from 'phosphor-react'
+import { useTheme } from 'styled-components'
 
 import { Container, CoffeeImg, Description, Tags, Title, Control, Order, Price } from './styles.ts'
-import { useEffect, useState } from 'react'
+import { QuantityInput } from '../quantityInput'
+
+import { useState } from 'react'
+
+import { useCart } from '../../hooks/useCart.tsx'
 
 type Props = {
-  coffee: {
-    id: string
-    title: string
-    description: string
-    tags: string[]
-    price: number
-    image: string
-  }
+    coffee: {
+        id: string
+        title: string
+        description: string
+        tags: string[]
+        price: number
+        image: string
+    }
 }
 
 export function Card({ coffee }: Props) {
     const [quantity, setQuantity] = useState(1)
     const [isItemAdded, setIsItemAdded] = useState(false)
-    // const { addItem } = useCart()
+    const theme = useTheme()
 
-    function incrementQuantity() {
-        setQuantity((state) => state + 1)
-    }
-
-    function decrementQuantity() {
-        if (quantity > 1) {
-            setQuantity((state) => state - 1)
-        }
-    }
-
-    function handleAddItem() {
-        // addItem({ id: coffee.id, quantity })
+    const handleAddItem = (() => {
+        // addItem({ id: coffee.id, quantity }) fazer você no contexto lá
         setIsItemAdded(true)
         setQuantity(1)
-    }
-
-    useEffect(() => {
-        let timeout: number
-
-        if (isItemAdded) {
-            timeout = setTimeout(() => {
-                setIsItemAdded(false)
-            }, 1000)
+    })
+    
+    const incrementQuantity = (() => {
+        setQuantity(prevCount => prevCount + 1)
+    })
+    
+    const decrementQuantity = (() => {
+        if (quantity >= 1) {
+            setQuantity(prevCount => prevCount - 1)
         }
-
-        return () => {
-            if (timeout) {
-                clearTimeout(timeout)
-            }
-        }
-    }, [isItemAdded])
-
+    })
 
     return (
         <Container>
@@ -72,7 +60,7 @@ export function Card({ coffee }: Props) {
                     <span>{coffee.price.toFixed(2)}</span>
                 </Price>
 
-                <Order $itemAdded={isItemAdded}>                
+                <Order $itemAdded={isItemAdded}>
                     <QuantityInput
                         quantity={quantity}
                         incrementQuantity={incrementQuantity}
@@ -81,14 +69,13 @@ export function Card({ coffee }: Props) {
 
                     <button disabled={isItemAdded} onClick={handleAddItem}>
                         {isItemAdded ? (
-                        <Check
-                            weight="fill"
-                            size={22}
-                            color={theme.colors['base-card']}
-                        />
-                        ) : (
-                        <ShoppingCart size={22} color={theme.colors['base-card']} />
-                        )}
+                            <Check
+                                weight="fill"
+                                size={22}
+                                color={theme['base-card']}
+                            />
+                            ) : ( <ShoppingCart size={22} color={theme['base-card']} /> )
+                        }
                     </button>
                 </Order>
             </Control>

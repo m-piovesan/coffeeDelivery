@@ -16,11 +16,12 @@ import {
 import { BaseInput } from './components/input'
 import { MapPinLine, CurrencyDollar, Money, CreditCard, Bank } from 'phosphor-react';
 
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+
+import { useCart } from '../../hooks/useCart'
 
 // schema de validação
 const newOrderSchema = z.object({
@@ -37,7 +38,7 @@ const newOrderSchema = z.object({
 })
   
 // tipagem do resultado da validação
-type OrderInfo = z.infer<typeof newOrderSchema>
+export type OrderInfo = z.infer<typeof newOrderSchema>
 
 export function Checkout() {
     const { register, handleSubmit, formState } = useForm<OrderInfo>({

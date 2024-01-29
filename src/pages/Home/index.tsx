@@ -2,7 +2,7 @@ import coffeeBanner from '../../assets/coffeeBanner.svg'
 
 import { ShoppingCart, Timer, Package, Coffee } from 'phosphor-react'
 
-import { Banner, Content, CoffeeSection, LandingPage, CoffeeList } from './styles'
+import { Banner, Content, LandingPage, CoffeeList } from './styles'
 
 import { Icon } from '../../components/icon'
 
@@ -49,11 +49,11 @@ export function Home() {
             <CoffeeList>
                 <h2>Nossos cafés</h2>
 
-                {/* <div>
-                {coffees.map((coffee) => (
-                    <Card key={coffee.id} coffee={coffee} />
-                ))}
-                </div> */}
+                <div>
+                    {coffees.map((coffee) => (
+                        <Card key={coffee.id} coffee={coffee} />
+                    ))}
+                </div>
             </CoffeeList>
             
         </div>

@@ -2,6 +2,10 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
+import { coffees } from '../../data.json'
+
+import { Card } from '../components/card'
+
 const schema = z.object({
         cep: z.number({ invalid_type_error: 'Informe o CEP' }),
         street: z.string().min(1, 'Informe a rua'),
@@ -41,15 +45,21 @@ export function MeuFormulario() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <label>
-        Nome:
-        <input {...register('cep')} />
-        {/* {errors.nome && <span style={{ color: 'red' }}>{errors.nome.message}</span>} */}
-      </label>
+    <div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+        <label>
+            Nome:
+            <input {...register('cep')} />
+            {/* {errors.nome && <span style={{ color: 'red' }}>{errors.nome.message}</span>} */}
+        </label>
 
-      <button type="submit">Enviar</button>
-    </form>
+        <button type="submit">Enviar</button>
+        </form>
+
+        {coffees.map((coffee) => (
+            <Card key={coffee.id} coffee={coffee} />
+          ))}
+    </div>
   );
 }
 
