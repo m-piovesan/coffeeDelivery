@@ -5,11 +5,9 @@ import { ShoppingCart, Timer, Package, Coffee } from 'phosphor-react'
 import { Banner, Content, LandingPage, CoffeeList } from './styles'
 
 import { Icon } from '../../components/icon'
-
-import { coffees } from '../../../data.json'
-
 import { Card } from '../../components/card'
 
+import { coffees } from '../../../data.json'
 
 export function Home() {
     return (
@@ -18,6 +16,7 @@ export function Home() {
                 <Content>
                     <h1>Encontre o café perfeito para qualquer hora do dia</h1>
                     <p className='subtitle'>Com o Coffee Delivery você recebe seu café onde estiver, a qualquer hora</p>
+                    
                     <ul>
                         <li>
                             <Icon iconsColor="yellow-dark"> 
@@ -54,8 +53,7 @@ export function Home() {
                         <Card key={coffee.id} coffee={coffee} />
                     ))}
                 </div>
-            </CoffeeList>
-            
+            </CoffeeList>  
         </div>
     )
 }

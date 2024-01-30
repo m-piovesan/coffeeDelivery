@@ -14,6 +14,8 @@ import {
 } from './styles';
 
 import { BaseInput } from './components/input'
+import { CoffeeInfo } from './components/coffeeInfo'
+
 import { MapPinLine, CurrencyDollar, Money, CreditCard, Bank } from 'phosphor-react';
 
 import { useForm } from 'react-hook-form';
@@ -24,7 +26,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useCart } from '../../hooks/useCart'
 
 // schema de validação
-const newOrderSchema = z.object({
+export const newOrderSchema = z.object({
         cep: z.string().min(8, 'Informe um CEP válido'),
         street: z.string().min(1, 'Informe a rua'),
         number: z.string().min(1, 'Informe o número'),
@@ -199,7 +201,9 @@ export function Checkout() {
                 
                 <InfoBox>
                     <div className='coffeeDisplay'>
-                        <h1>cafés aqui</h1>
+                        <CoffeeInfo>
+
+                        </CoffeeInfo>
                     </div>
                     <PriceDisplay>
                         <PriceRow>

@@ -4,7 +4,7 @@ import { useTheme } from 'styled-components'
 import { Container, CoffeeImg, Description, Tags, Title, Control, Order, Price } from './styles.ts'
 import { QuantityInput } from '../quantityInput'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useCart } from '../../hooks/useCart.tsx'
 
@@ -24,8 +24,10 @@ export function Card({ coffee }: Props) {
     const [isItemAdded, setIsItemAdded] = useState(false)
     const theme = useTheme()
 
+    const { addItem } = useCart()
+
     const handleAddItem = (() => {
-        // addItem({ id: coffee.id, quantity }) fazer você no contexto lá
+        addItem({ id: coffee.id, quantity })
         setIsItemAdded(true)
         setQuantity(1)
     })
@@ -39,6 +41,22 @@ export function Card({ coffee }: Props) {
             setQuantity(prevCount => prevCount - 1)
         }
     })
+
+    useEffect(() => {
+        let timeout: number
+    
+        if (isItemAdded) {
+            timeout = setTimeout(() => {
+                setIsItemAdded(false)
+            }, 1000)
+        }
+    
+        return () => {
+            if (timeout) {
+                clearTimeout(timeout)
+            }
+        }
+    }, [isItemAdded])
 
     return (
         <Container>
