@@ -32,8 +32,8 @@ export const Tags = styled.div`
     span {
         padding: 4px 8px;
         border-radius: 100px;
-        background-color: ${({ theme }) => theme['yellow-light']};
-        color: ${({ theme }) => theme['yellow-dark']};
+        background-color: ${({ theme }) => theme['yellow-100']};
+        color: ${({ theme }) => theme['yellow-700']};
         text-transform: uppercase;
         ${mixins.fonts.tag}
     }

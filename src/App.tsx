@@ -3,6 +3,8 @@ import { ThemeProvider } from 'styled-components'
 import { BrowserRouter } from 'react-router-dom'
 import { Router } from './Router'
 
+import { CartProvider } from './contexts/CartContext'
+
 // import { AddressContextProvider } from './contexts/AddressContext'
 
 import { GlobalStyle } from './styles/global'
@@ -12,9 +14,9 @@ export function App() {
   return (  
     <ThemeProvider theme={defaultTheme}>
         <BrowserRouter>
-            {/* <AddressContextProvider> */}
+            <CartProvider>
                 <Router />
-            {/* </AddressContextProvider> */}
+            </CartProvider>
         </BrowserRouter>
     
         <GlobalStyle />

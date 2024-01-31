@@ -12,6 +12,8 @@ export const Container = styled.div`
         background-color: transparent;
         display: flex;
         align-items: center;
+        border: none;
+        cursor: pointer;
     }
 
     button svg {

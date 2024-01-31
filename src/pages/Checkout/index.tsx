@@ -200,11 +200,7 @@ export function Checkout() {
                 <h2>Cafés Selecionados</h2>
                 
                 <InfoBox>
-                    <div className='coffeeDisplay'>
-                        <CoffeeInfo>
-
-                        </CoffeeInfo>
-                    </div>
+                    <CoffeeInfo />
                     <PriceDisplay>
                         <PriceRow>
                             <p>Total de itens:</p>
