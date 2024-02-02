@@ -87,37 +87,6 @@ export const UFSelect = styled.select`
     }
 ` 
 
-export const PaymentButton = styled.button<StyledPaymentButtonProps>`
-    background-color: ${props => (props.isSelected ? props.theme['base-hover'] : props.theme['base-button'])};
-    color: ${props => props.theme['base-text']};
-    border: ${props => (props.isSelected ? `2px solid ${props.theme['purple-700']}` : `2px solid transparent`)};
-
-    border-radius: 5px;
-    padding: 1rem;
-    gap: .5rem;
-    width: 13rem;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-    text-transform: uppercase;
-    ${mixins.fonts.buttonM};
-    cursor: pointer;
-
-    transition: all 0.2s ease-in-out;
-
-    &:hover {
-        background-color: ${props => props.theme['base-hover']};
-    }
-
-    /* Estilo condicional quando o botão está selecionado */
-    ${props => props.isSelected && `
-      border-color: #4B2995;
-      box-shadow: 0 0 5px rgba(75, 41, 149, 0.5);
-    `}
-`   
-
 export const SelectedCoffees = styled.div`
     width: 35%;
     display: flex;

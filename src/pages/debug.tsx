@@ -56,9 +56,17 @@ export function MeuFormulario() {
         <button type="submit">Enviar</button>
         </form>
 
-        {coffees.map((coffee) => (
+        {/* {coffees.map((coffee) => (
             <Card key={coffee.id} coffee={coffee} />
-          ))}
+          ))} */}
+
+        <br />
+        <br />
+
+<div>
+
+
+</div>
     </div>
   );
 }

@@ -62,7 +62,11 @@ export function cartReducer(state: CartState, action: Actions) {
 
                 // if item is not found, do nothing, otherwise decrement its quantity
                 if (itemToDecrement?.id) {
-                    itemToDecrement.quantity -= 1
+                    if (itemToDecrement.quantity <= 1) {
+                        return
+                    } else {
+                        itemToDecrement.quantity -= 1
+                    }
                 }
             })
 

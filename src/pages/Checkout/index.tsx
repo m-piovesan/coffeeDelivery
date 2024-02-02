@@ -4,7 +4,6 @@ import {
     LandingPage,
     InfoBox,
     IBTitle,
-    PaymentButton,
     PriceDisplay,
     PriceRow,
     ConfirmButton,
@@ -18,9 +17,10 @@ import {
     RemoveButton
 } from './styles';
 
-import { BaseInput } from './components/input'
+import { BaseInput } from '../../components/input'
 import { Price } from '../../components/card/styles';
 import { QuantityInput } from '../../components/quantityInput';
+import { PaymentButton } from '../../components/paymentMethodButton'
 
 import { MapPinLine, CurrencyDollar, Money, CreditCard, Bank, Trash } from 'phosphor-react';
 
@@ -36,10 +36,10 @@ import { useCart } from '../../hooks/useCart'
 import { coffees } from '../../../data.json'
 
 type FormInputs = {
-    cep: number
+    cep: string
     street: string
     number: string
-    fullAddress: string
+    complement: string
     neighborhood: string
     city: string
     state: string
@@ -55,9 +55,9 @@ export const newOrderSchema = z.object({
         neighborhood: z.string().min(1, 'Informe o bairro'),
         city: z.string().min(1, 'Informe a cidade'),
         state: z.string().min(1, 'Informe a UF'),
-    //     paymentMethod: z.enum(['credit', 'debit', 'cash', ''], {
-    //         invalid_type_error: 'Informe um método de pagamento',
-    // }),
+        paymentMethod: z.enum(['credit', 'debit', 'cash'], {
+            invalid_type_error: 'Informe um método de pagamento',
+    }),
 })
   
 // tipagem do resultado da validação
@@ -93,7 +93,7 @@ export function Checkout() {
         return (previousValue += currentItem.price * currentItem.quantity)
     }, 0)
 
-    const { register, handleSubmit, formState } = useForm<OrderInfo>({
+    const { register, handleSubmit, formState, watch } = useForm<OrderInfo>({
         resolver: zodResolver(newOrderSchema),
     })
 
@@ -109,23 +109,16 @@ export function Checkout() {
         removeItem(itemId)
     }
 
-    const onSubmit: SubmitHandler<OrderInfo> = (data) => {
-        const order = {
-            ...data,
-            items: coffeesInCart,
-            total: totalItemsPrice + shippingPrice,
+    const handleOrderCheckout: SubmitHandler<FormInputs> = (data) => {
+        if (cart.length === 0) {
+            return alert('É preciso ter pelo menos um item no carrinho')
         }
-
-        checkout(order)
+    
+        checkout(data)
     }
-
+    
+    const selectedPaymentMethod = watch('paymentMethod')
     const isCarEmpty = cart.length === 0
-
-    // Função para lidar com o clique nos botões de pagamento
-    // function handlePaymentButtonClick(paymentMethod: 'credit' | 'debit' | 'cash' | '') {
-    //     event.preventDefault();
-    //     setInputInfo({ ...inputInfo, paymentMethod })
-    // }
 
     return (
         <LandingPage>
@@ -140,7 +133,7 @@ export function Checkout() {
                     
                     <p>Informe o endereço onde deseja receber seu pedido</p>
                     
-                    <IBForm id='addressForm' onSubmit={handleSubmit(onSubmit)}>
+                    <IBForm id='addressForm' onSubmit={handleSubmit(handleOrderCheckout)}>
                         <Row>
                             <BaseInput
                                 width="50%"
@@ -230,33 +223,36 @@ export function Checkout() {
 
                     <p>O pagamento é feito na entrega. Escolha a forma que deseja pagar</p>
 
-                    {/* <IBForm>
+                    <IBForm>
                         <Row>
-                            <PaymentButton
-                                onClick={() => handlePaymentButtonClick('credit')}
-                                isSelected={inputInfo.paymentMethod === 'credit'}
+                            <PaymentButton 
+                                isSelected={selectedPaymentMethod === 'credit'}
+                                {...register('paymentMethod')}
+                                value="credit"
                             >
                                 <CreditCard size={22} color='#4B2995' />
                                 Cartão de crédito
                             </PaymentButton>
 
                             <PaymentButton
-                                onClick={() => handlePaymentButtonClick('debit')}
-                                isSelected={inputInfo.paymentMethod === 'debit'}
+                                isSelected={selectedPaymentMethod === 'debit'}
+                                {...register('paymentMethod')}
+                                value="debit"
                             >
                                 <Bank size={22} color='#4B2995' />
                                 Cartão de débito
                             </PaymentButton>
 
-                            <PaymentButton
-                                onClick={() => handlePaymentButtonClick('cash')}
-                                isSelected={inputInfo.paymentMethod === 'cash'}
+                            <PaymentButton 
+                                isSelected={selectedPaymentMethod === 'cash'}
+                                {...register('paymentMethod')}
+                                value="cash"
                             >
                                 <Money size={22} color='#4B2995' />
                                 Dinheiro
                             </PaymentButton>
                         </Row>
-                    </IBForm> */}
+                    </IBForm>
                 </InfoBox>
             </OrderContainer>
 
@@ -337,9 +333,7 @@ export function Checkout() {
                     >
                         <p>Confirmar Pedido</p>
                     </ConfirmButton>        
-
                 </InfoBox>
-
             </SelectedCoffees>
         </LandingPage>
     );

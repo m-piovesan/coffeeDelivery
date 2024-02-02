@@ -12,10 +12,23 @@ import { Icon } from '../../components/icon'
 import Motoboy from '../../assets/motoboy.svg'
 import { MapPin, CurrencyDollar, Timer } from 'phosphor-react'
 
-// import { useAddress } from '../../contexts/AddressContext'
+import { useCart } from '../../hooks/useCart'
+import { useParams } from 'react-router-dom';
 
 export function Success() {
-    // const { address } = useAddress();
+    const { orders } = useCart()
+    const { orderId } = useParams()
+    const orderInfo = orders.find((order) => order.id === Number(orderId))
+    
+    const paymentMethod = {
+        credit: 'Cartão de crédito',
+        debit: 'Cartão de débito',
+        cash: 'Dinheiro',
+    }
+    
+    if (!orderInfo?.id) {
+        return null
+    }
 
     return (
         <LandingPage>
@@ -30,8 +43,16 @@ export function Success() {
                                 <MapPin weight="fill" color='white' />
                             </Icon>                        
                             <OrderDetailsText>
-                                {/* <p>Entrega em {address.street}, {address.number}</p>
-                                <p>{address.neighborhood} - {address.city}, {address.state}</p> */}
+                                <span>
+                                    Entrega em{' '}
+                                    <strong>
+                                        {orderInfo.street}, {orderInfo.number}
+                                    </strong>
+                                </span>
+                                
+                                <span>
+                                    {orderInfo.neighborhood} - {orderInfo.city}, {orderInfo.state}
+                                </span>
                             </OrderDetailsText>
                         </OrderDetailsRow>
 
@@ -51,8 +72,7 @@ export function Success() {
                             </Icon>                        
                             <OrderDetailsText>
                                 <p>Pagamento na entrega:</p>
-                                <p>Dinheiro</p>
-                            </OrderDetailsText>
+                                <strong>{paymentMethod[orderInfo.paymentMethod]}</strong>                            </OrderDetailsText>
                         </OrderDetailsRow>
                     </OrderDetails>
                 </GradientBorder>
