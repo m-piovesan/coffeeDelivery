@@ -43,8 +43,6 @@ export function Home() {
                 </Banner>
             </LandingPage>
 
-            <h2>Nossos cafés</h2>
-
             <CoffeeList>
                 <h2>Nossos cafés</h2>
 

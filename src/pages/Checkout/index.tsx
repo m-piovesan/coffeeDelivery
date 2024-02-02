@@ -10,20 +10,41 @@ import {
     ConfirmButton,
     IBForm,
     Row,
-    UFSelect
+    UFSelect,
+    CoffeesContainer,
+    CoffeeImg,
+    TitleSection,
+    ButtonsSection,
+    RemoveButton
 } from './styles';
 
 import { BaseInput } from './components/input'
-import { CoffeeInfo } from './components/coffeeInfo'
+import { Price } from '../../components/card/styles';
+import { QuantityInput } from '../../components/quantityInput';
 
-import { MapPinLine, CurrencyDollar, Money, CreditCard, Bank } from 'phosphor-react';
+import { MapPinLine, CurrencyDollar, Money, CreditCard, Bank, Trash } from 'phosphor-react';
 
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
+
+import { useTheme } from 'styled-components';
 
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { useCart } from '../../hooks/useCart'
+
+import { coffees } from '../../../data.json'
+
+type FormInputs = {
+    cep: number
+    street: string
+    number: string
+    fullAddress: string
+    neighborhood: string
+    city: string
+    state: string
+    paymentMethod: 'credit' | 'debit' | 'cash'
+}
 
 // schema de validação
 export const newOrderSchema = z.object({
@@ -42,26 +63,69 @@ export const newOrderSchema = z.object({
 // tipagem do resultado da validação
 export type OrderInfo = z.infer<typeof newOrderSchema>
 
+const shippingPrice = 3.5
+
 export function Checkout() {
+    const theme = useTheme()
+
+    const {
+        cart,
+        checkout,
+        incrementItemQuantity,
+        decrementItemQuantity,
+        removeItem,
+    } = useCart()
+    
+    const coffeesInCart = cart.map((item) => {
+        const coffeeInfo = coffees.find((coffee) => coffee.id === item.id)
+
+        if (!coffeeInfo) {
+            throw new Error('Invalid coffee.')
+        }
+
+        return {
+            ...coffeeInfo,
+            quantity: item.quantity,
+        }
+    })
+
+    const totalItemsPrice = coffeesInCart.reduce((previousValue, currentItem) => {
+        return (previousValue += currentItem.price * currentItem.quantity)
+    }, 0)
+
     const { register, handleSubmit, formState } = useForm<OrderInfo>({
         resolver: zodResolver(newOrderSchema),
-    });
+    })
 
+    function handleItemIncrement(itemId: string) {
+        incrementItemQuantity(itemId)
+    }
+    
+    function handleItemDecrement(itemId: string) {
+        decrementItemQuantity(itemId)
+    }
+    
+    function handleItemRemove(itemId: string) {
+        removeItem(itemId)
+    }
 
-    // Função para lidar com o envio do formulário, recebe como parâmetro os dados do formulário
-    // function handleFormSubmit (handleSubmit( async ({}) => {}) data: OrderInfo) {
-    //     setInputInfo(data)
-    // }
+    const onSubmit: SubmitHandler<OrderInfo> = (data) => {
+        const order = {
+            ...data,
+            items: coffeesInCart,
+            total: totalItemsPrice + shippingPrice,
+        }
+
+        checkout(order)
+    }
+
+    const isCarEmpty = cart.length === 0
 
     // Função para lidar com o clique nos botões de pagamento
     // function handlePaymentButtonClick(paymentMethod: 'credit' | 'debit' | 'cash' | '') {
     //     event.preventDefault();
     //     setInputInfo({ ...inputInfo, paymentMethod })
     // }
-        
-    function onSubmit(data: OrderInfo) {
-        console.log(data)
-    }
 
     return (
         <LandingPage>
@@ -200,25 +264,77 @@ export function Checkout() {
                 <h2>Cafés Selecionados</h2>
                 
                 <InfoBox>
-                    <CoffeeInfo />
+                    {coffeesInCart.map((coffee) => (
+                        <CoffeesContainer> 
+                            <CoffeeImg src={coffee.image}/>
+                            
+                            <TitleSection>
+                                <p>{coffee.title}</p>
+        
+                                <ButtonsSection>
+                                    <QuantityInput 
+                                        quantity={coffee.quantity}
+                                        incrementQuantity={() => handleItemIncrement(coffee.id)}
+                                        decrementQuantity={() => handleItemDecrement(coffee.id)}
+                                    />
+        
+                                    <RemoveButton onClick={() => handleItemRemove(coffee.id)}>
+                                        <Trash size={18} color={theme['purple-700']} />
+                                        <p>remover</p>
+                                    </RemoveButton>
+                                </ButtonsSection>
+        
+                            </TitleSection>
+        
+                            <Price>
+                                <span>R$</span>
+                                <span>9,90</span>
+                            </Price>
+                        </CoffeesContainer> 
+
+                    ))}
+                    
                     <PriceDisplay>
                         <PriceRow>
                             <p>Total de itens:</p>
-                            <p>R$ 0,00</p>    
+                            <p>
+                                {new Intl.NumberFormat('pt-br', {
+                                    currency: 'BRL',
+                                    style: 'currency',
+                                }).format(totalItemsPrice)}    
+                            </p>    
                         </PriceRow> 
 
                         <PriceRow>
                             <p>Entrega:</p>
-                            <p>R$ 0,00</p>    
+                            {!isCarEmpty ? 
+                                <p>
+                                    {new Intl.NumberFormat('pt-br', {
+                                        currency: 'BRL',
+                                        style: 'currency',
+                                    }).format(shippingPrice)}    
+                                </p> : <p>R$ 0,00</p> 
+                            }
                         </PriceRow>
 
                         <PriceRow>
                             <p>Total:</p>
-                            <p>R$ 0,00</p>    
+                            {!isCarEmpty ? 
+                                <p>
+                                    {new Intl.NumberFormat('pt-br', {
+                                        currency: 'BRL',
+                                        style: 'currency',
+                                    }).format(totalItemsPrice + shippingPrice)}    
+                                </p> : <p>R$ 0,00</p> 
+                            }   
                         </PriceRow>  
                     </PriceDisplay>
 
-                    <ConfirmButton form='addressForm' type='submit' isValid={formState.isValid}>
+                    <ConfirmButton
+                        form='addressForm'
+                        type='submit'
+                        isValid={(formState.isValid) && (!isCarEmpty)}
+                    >
                         <p>Confirmar Pedido</p>
                     </ConfirmButton>        
 

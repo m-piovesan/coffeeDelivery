@@ -65,6 +65,7 @@ export const CoffeeList = styled.section`
 
     > h2 {
         color: ${props => props.theme['base-title']};
+        text-align: center;
     }
 
     > div {
